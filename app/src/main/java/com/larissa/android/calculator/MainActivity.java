@@ -251,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case R.id.btn_backspace:{
-                    System.out.println(expression.length());
                     if(expression.length()==1){
                         expression = "0";
                         text_expression.setText(expression);

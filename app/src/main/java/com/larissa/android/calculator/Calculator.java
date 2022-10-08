@@ -95,13 +95,16 @@ public class Calculator
             {
                 if(!curly_mode) // 如果还没遍历到括号表达式内, 则进行四则数值操作
                 {
-                    double new_data = Double.parseDouble(c_temp);
+                    double new_data = 0;
+                    if(c_temp.equals(".")==false){
+                        new_data = Double.parseDouble(c_temp);
+                    }
 
                     /* 令程序能够将个位以上的数值放入栈中 */
                     if(i != (len-1)) // 还没遍历到最后一个字符
                     {
                         String c_next = expression.charAt(i+1) + "";
-                        if("1234567890".indexOf(c_next) != -1) // 下一位是数字
+                        if("1234567890.".indexOf(c_next) != -1) // 下一位是数字
                         {
                             num_temp += c_temp;
                             continue;
