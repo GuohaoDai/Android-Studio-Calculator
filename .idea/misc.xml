@@ -7,7 +7,8 @@
         <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/drawable/btn_bg.xml" value="0.2075" />
         <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/drawable/ic_backspace.xml" value="0.2085" />
         <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/drawable/ic_launcher_background.xml" value="0.259" />
-        <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/layout-land/activity_main.xml" value="0.10400000000000001" />
+        <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/layout/activity_main.xml" value="0.152" />
       </map>
     </option>
   </component>
