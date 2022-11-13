@@ -1,10 +1,17 @@
 package com.larissa.android.calculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,7 +21,7 @@ import com.larissa.android.calculator.Calculator.*;
 
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MenuProvider {
 
     /* 计算器显示屏  */
     private String expression = "0"; //用于保存计算器表达式内容
@@ -35,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int state_flag;
     private String low, up, var_expression, acc_num;
 
+    //保存数据用的viewmodel类
+    private CalculatorViewModel viewmodel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         screenOrientation=getResources().getConfiguration().orientation; // 方向
 
         state_flag = 1; //1为平常模式， 2时要求输入积分下限，3时输入上限, 4时输入积分精度
+
+        viewmodel = new ViewModelProvider(this).get(CalculatorViewModel.class);//viewmodel
+
 
         /* 根据不同屏幕方向, 用ID获取控件 */
 
@@ -135,7 +149,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn_var.setOnClickListener(this);
         }
 
+        /* 设置菜单 */
+        addMenuProvider(this);
     }
+
+
+    /* 菜单相关方法 */
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.activity_main,menu);
+    }
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.btn_hist: // 如果点击的是history
+                Intent intent=new Intent(this, HistoryActivity.class);//如果点击菜单,则弹到帮助页面
+
+                intent.putExtra("HistNum", viewmodel.expression_list.size()); //计算器的历史计算总数
+
+                /* 向activity_history传送表达式信息 */
+                for(int i=0; i<viewmodel.expression_list.size(); i++)
+                {
+                    intent.putExtra("Expression" + String.valueOf(i), viewmodel.expression_list.get(i));
+                    intent.putExtra("Result" + String.valueOf(i), viewmodel.res_list.get(i));
+                }
+
+                startActivity(intent);
+                return true;
+            default:
+                return true;
+        }
+    }
+
 
     // 生命周期结束时保存数据
     protected void onSaveInstanceState(Bundle savedInstanceState){
@@ -315,7 +360,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(btn_id==btn_eql.getId()){
                 if(state_flag==1)
                 {
+                    viewmodel.expression_list.add(expression); //记录算术表达式
                     expression = Calculator.transformed_calculate(expression);
+                    viewmodel.res_list.add(expression); //记录结果
                     text_expression.setText(expression);
                 }
                 else if(state_flag==2)
@@ -346,6 +393,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     acc_num = expression;
                     expression = Calculus.cal_calculus(var_expression, low, up, acc_num);
+                    viewmodel.expression_list.add("∫"+"{"+low+"}"+"_{"+up+"}_("+var_expression+")dx"); //记录积分表达式
+                    viewmodel.res_list.add(expression); //记录结果
                     text_expression.setText(expression);
                     hint_info.setText("");
                     state_flag=1;
