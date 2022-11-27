@@ -29,8 +29,8 @@
 并且HistoryActivity使用ScrollView，确保用户能够查看所有历史记录。
 
 ## v6 2022.11.27
-将原来在MainActivity的计算器页面, 用单独一个Fragment("CalculateInterfaceFragment.java", 以及另外两个Layout)独立分隔出来,
-MainActivity只留有很少一部分代码, 从而保持MainActivity的简洁. 
+将原来在MainActivity的计算器页面, 用单独一个Fragment(1个java文件和2个Layout)独立分隔出来,
+原来的MainActivity.java只留有很少一部分代码, 从而保持简洁. 
 同时, 由于目前尚且未学到Fragment如何传递数据, 所以HistoryActivity的历史计算记录功能暂时取消，等下个版本再完善。
 
 
