@@ -46,15 +46,7 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
         super.onCreateView(inflater,container,savedInstanceState);
         Log.d(TAG,"onCreateView() called");
 
-        //设置要展示的Fragment页面, 根据不同方向设置为计算显示页面
-        screenOrientation=getResources().getConfiguration().orientation; // 方向
-        View view;
-        if(screenOrientation==Configuration.ORIENTATION_PORTRAIT)
-            view=inflater.inflate(R.layout.fragment_calculate, container,false);
-        else if(screenOrientation==Configuration.ORIENTATION_LANDSCAPE)
-            view=inflater.inflate(R.layout.fragment_calculate_land, container,false);
-        else
-            view=null;
+        View view = inflater.inflate(R.layout.fragment_calculate, container,false);
         return view;
     }
 
@@ -63,7 +55,7 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG,"onViewCreated() called");
-
+        screenOrientation=getResources().getConfiguration().orientation; // 方向
         state_flag = 1;
         viewmodel = new ViewModelProvider(this).get(CalculatorViewModel.class);//viewmodel
 
@@ -120,11 +112,6 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
             btn_var = (Button) view.findViewById(R.id.btn_var_l);
             hint_info = (TextView) view.findViewById(R.id.text_info_l);
         }
-
-//        /* 如果有数据被保存过, 则获取 */
-//        if(savedInstanceState!=null){
-//            expression=savedInstanceState.getString(KEY_expression,"");
-//        }
 
         /* 按钮控件设置事件监听,以进行响应操作. 监听函数为重写的onClick */
         btn_num1.setOnClickListener(this);

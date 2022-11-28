@@ -17,45 +17,52 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         Log.d(TAG,"onCreate() called");
 
-        int num_of_hist = getIntent().getIntExtra("HistNum", 0); //计算器的历史计算总数
+//        int num_of_hist = getIntent().getIntExtra("HistNum", 0); //计算器的历史计算总数
+//
+//        /* 展示历史计算表达式 */
+//        for(int i=0; i<num_of_hist; i++){
+//            // 历史计算表达式
+//            String hist_expression =
+//                    getIntent().getStringExtra("Expression" + String.valueOf(i)) +
+//                    " = " +
+//                    getIntent().getStringExtra("Result" + String.valueOf(i));
+//            // 动态添加控件 展示表达式
+//            dynamic_add(hist_expression);
+//        }
 
-        /* 展示历史计算表达式 */
-        for(int i=0; i<num_of_hist; i++){
-            // 历史计算表达式
-            String hist_expression =
-                    getIntent().getStringExtra("Expression" + String.valueOf(i)) +
-                    " = " +
-                    getIntent().getStringExtra("Result" + String.valueOf(i));
-            // 动态添加控件 展示表达式
-            dynamic_add(hist_expression);
+        //如果是第一次创造该activity
+        if(savedInstanceState==null){
+            //对HistoryListFragment的类进行托管, 并将其Fragment展示在fragment_history_container所对应的xml中
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_history_container, HistoryListFragment.class,null).commit();
         }
-
     }
 
-    /* 在LinearLayout里添加textview控件, 展示内容为string */
-    protected void dynamic_add(String string){
-
-        // 获取LinearLayout控件
-        LinearLayout rootLayout = (LinearLayout)findViewById(R.id.Linear_Hist);
-        TextView textView = new TextView(this);
-
-        textView.setText(string);
-        textView.setTextSize(25);
-
-        // 获取父布局
-        LinearLayout.LayoutParams Layout_parent_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        // 设置父布局margin
-        Layout_parent_params.setMargins(50,30,0,0);
-
-        // 在Linearlayout里添加TexView控件
-        rootLayout.addView(textView, Layout_parent_params);
-
-    }
+//    /* 在LinearLayout里添加textview控件, 展示内容为string */
+//    protected void dynamic_add(String string){
+//
+//        // 获取LinearLayout控件
+//        LinearLayout rootLayout = (LinearLayout)findViewById(R.id.Linear_Hist);
+//        TextView textView = new TextView(this);
+//
+//        textView.setText(string);
+//        textView.setTextSize(25);
+//
+//        // 获取父布局
+//        LinearLayout.LayoutParams Layout_parent_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//        // 设置父布局margin
+//        Layout_parent_params.setMargins(50,30,0,0);
+//
+//        // 在Linearlayout里添加TexView控件
+//        rootLayout.addView(textView, Layout_parent_params);
+//
+//    }
 
     // 重写生命周期相关方法
     @Override

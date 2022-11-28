@@ -4,11 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout-land/activity_main.xml" value="0.144" />
+        <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout-land/fragment_calculate_land.xml" value="0.26146384479717816" />
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/activity_history.xml" value="0.1" />
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/fragment_calculate.xml" value="0.1" />
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/fragment_calculate_land.xml" value="0.1" />
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/fragment_calculate_surface.xml" value="0.11165048543689321" />
+        <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/fragment_history_list.xml" value="0.15020263424518743" />
+        <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/layout/history_item.xml" value="0.25" />
         <entry key="..\:/codingtool/project/android2/calculator/app/src/main/res/menu/activity_main.xml" value="0.1" />
         <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/codingtool/project/git/calculator/app/src/main/res/drawable/btn_bg.xml" value="0.2075" />

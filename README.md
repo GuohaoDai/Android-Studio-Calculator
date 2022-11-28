@@ -33,4 +33,9 @@
 原来的MainActivity.java只留有很少一部分代码, 从而保持简洁. 
 同时, 由于目前尚且未学到Fragment如何传递数据, 所以HistoryActivity的历史计算记录功能暂时取消，等下个版本再完善。
 
+## v7 2022.11.28
+将显示历史数据的功能改为了使用RecyclerView。
+
+添加fragment_calculate的land版本，让项目更规范。
+
 

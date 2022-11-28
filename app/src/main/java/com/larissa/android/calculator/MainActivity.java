@@ -46,13 +46,6 @@ public class MainActivity extends AppCompatActivity implements MenuProvider {
         switch (menuItem.getItemId()){
             case R.id.btn_hist: // 如果点击的是history
                 Intent intent=new Intent(this, HistoryActivity.class);//如果点击菜单,则弹到帮助页面
-//                intent.putExtra("HistNum", viewmodel.expression_list.size()); //计算器的历史计算总数
-//                /* 向activity_history传送表达式信息 */
-//                for(int i=0; i<viewmodel.expression_list.size(); i++)
-//                {
-//                    intent.putExtra("Expression" + String.valueOf(i), viewmodel.expression_list.get(i));
-//                    intent.putExtra("Result" + String.valueOf(i), viewmodel.res_list.get(i));
-//                }
                 startActivity(intent);
                 return true;
 
