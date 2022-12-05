@@ -3,6 +3,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,17 +14,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
-public class CalculateInterfaceFragment extends Fragment implements View.OnClickListener {
+public class CalculateInterfaceFragment extends Fragment implements View.OnClickListener, MenuProvider {
     private static final String TAG = "CalculateInterfaceFragment";
-    private static final String KEY_expression="KEY_expression"; // 标识已输入算数表达式的键
-
-    /* 计算器相关参数  */
-    private String expression = "0"; //用于保存计算器表达式内容
-    private int state_flag=1; //1为平常模式， 2时要求输入积分下限，3时输入上限, 4时输入积分精度
-    private String low, up, var_expression, acc_num;
+    private View view; // fragment所在的View
 
     /* 定义 按钮对象 和 textview对象 */
     private Button btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_num6, btn_num7, btn_num8, btn_num9, btn_num0;
@@ -38,6 +39,8 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate() called");
+
+
     }
 
     /* 展示Fragment的Layout */
@@ -46,7 +49,12 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
         super.onCreateView(inflater,container,savedInstanceState);
         Log.d(TAG,"onCreateView() called");
 
-        View view = inflater.inflate(R.layout.fragment_calculate, container,false);
+        //得到fragment所在的view
+        view = inflater.inflate(R.layout.fragment_calculate, container,false);
+
+        //得到Activity对象， 设置菜单
+        getActivity().addMenuProvider(this);
+
         return view;
     }
 
@@ -56,8 +64,8 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG,"onViewCreated() called");
         screenOrientation=getResources().getConfiguration().orientation; // 方向
-        state_flag = 1;
-        viewmodel = new ViewModelProvider(this).get(CalculatorViewModel.class);//viewmodel
+        viewmodel = new ViewModelProvider(requireActivity()).get(CalculatorViewModel.class);//得到所托管的Activity的viewmodel
+        viewmodel.state_flag = 1;
 
         /* 根据不同屏幕方向, 用ID获取控件 */
         if(screenOrientation== Configuration.ORIENTATION_PORTRAIT){
@@ -144,8 +152,7 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
             btn_var.setOnClickListener(this);
         }
 
-        SetCalAttribute();//设置属性
-        text_expression.setText(expression); //在显示屏上显示计算表达式
+        text_expression.setText(viewmodel.expression); //在显示屏上显示计算表达式
     }
 
     /* 定义一个监听事件对象, 里面定义按键后的业务逻辑 */
@@ -154,254 +161,266 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
         try{
             int btn_id = btn_view.getId();
             if(btn_id==btn_num0.getId()){
-                if(expression.equals("0")==false){
-                    expression += "0";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==false){
+                    viewmodel.expression += "0";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num1.getId()){
-                if(expression.equals("0")==true){
-                    expression = "1";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "1";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else{
-                    expression += "1";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "1";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num2.getId()){
-                if(expression.equals("0")==true)
+                if(viewmodel.expression.equals("0")==true)
                 {
-                    expression = "2";
-                    text_expression.setText(expression);
+                    viewmodel.expression = "2";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "2";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "2";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num3.getId()){
-                if(expression.equals("0")==true){
-                    expression = "3";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "3";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "3";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "3";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num4.getId()){
-                if(expression.equals("0")==true){
-                    expression = "4";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "4";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "4";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "4";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num5.getId()){
-                if(expression.equals("0")==true){
-                    expression = "5";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "5";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "5";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "5";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num6.getId()){
-                if(expression.equals("0")==true){
-                    expression = "6";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "6";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "6";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "6";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num7.getId()){
-                if(expression.equals("0")==true){
-                    expression = "7";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "7";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "7";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "7";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num8.getId()){
-                if(expression.equals("0")==true){
-                    expression = "8";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "8";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "8";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "8";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_num9.getId()){
-                if(expression.equals("0")==true){
-                    expression = "9";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "9";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "9";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "9";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_add.getId()){
-                if(expression.equals("0")==false) {
-                    expression += "+";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==false) {
+                    viewmodel.expression += "+";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_sub.getId()){
-                if(expression.equals("0")==true){
-                    expression = "-";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "-";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "-";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "-";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_mul.getId()){
-                expression += "*";
-                text_expression.setText(expression);
+                viewmodel.expression += "*";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_div.getId()){
-                expression += "/";
-                text_expression.setText(expression);
+                viewmodel.expression += "/";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_point.getId()){
-                expression += ".";
-                text_expression.setText(expression);
+                viewmodel.expression += ".";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_lb.getId()){
-                if(expression.equals("0")==true){
-                    expression = "(";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.equals("0")==true){
+                    viewmodel.expression = "(";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else
                 {
-                    expression += "(";
-                    text_expression.setText(expression);
+                    viewmodel.expression += "(";
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_rb.getId()){
-                expression += ")";
-                text_expression.setText(expression);
+                viewmodel.expression += ")";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_back.getId()){
-                if(expression.length()==1){
-                    expression = "0";
-                    text_expression.setText(expression);
+                if(viewmodel.expression.length()==1){
+                    viewmodel.expression = "0";
+                    text_expression.setText(viewmodel.expression);
                 }
                 else {
-                    expression = expression.substring(0, expression.length() - 1);
-                    text_expression.setText(expression);
+                    viewmodel.expression = viewmodel.expression.substring(0, viewmodel.expression.length() - 1);
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_clr.getId()){
-                expression = "0";
-                text_expression.setText(expression);
+                viewmodel.expression = "0";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_eql.getId()){
-                if(state_flag==1)
+                if(viewmodel.state_flag==1)
                 {
-                    viewmodel.expression_list.add(expression); //记录算术表达式
-                    expression = Calculator.transformed_calculate(expression);
-                    viewmodel.res_list.add(expression); //记录结果
-                    text_expression.setText(expression);
+                    viewmodel.expression_list.add(viewmodel.expression); //记录算术表达式
+                    viewmodel.expression = Calculator.transformed_calculate(viewmodel.expression);
+                    viewmodel.res_list.add(viewmodel.expression); //记录结果
+                    text_expression.setText(viewmodel.expression);
                 }
-                else if(state_flag==2)
+                else if(viewmodel.state_flag==2)
                 {
-                    var_expression = expression;
-                    expression = "";
-                    text_expression.setText(expression);
+                    viewmodel.var_expression = viewmodel.expression;
+                    viewmodel.expression = "";
+                    text_expression.setText(viewmodel.expression);
                     hint_info.setText("请输入积分下限，然后按“=”键继续");
-                    state_flag=3;
+                    viewmodel.state_flag=3;
                 }
-                else if(state_flag==3)
+                else if(viewmodel.state_flag==3)
                 {
-                    low = expression;
-                    expression = "";
-                    text_expression.setText(expression);
+                    viewmodel.low = viewmodel.expression;
+                    viewmodel.expression = "";
+                    text_expression.setText(viewmodel.expression);
                     hint_info.setText("请输入积分上限，然后按“=”键继续");
-                    state_flag=4;
+                    viewmodel.state_flag=4;
                 }
-                else if(state_flag==4)
+                else if(viewmodel.state_flag==4)
                 {
-                    up = expression;
-                    expression = "";
-                    text_expression.setText(expression);
+                    viewmodel.up = viewmodel.expression;
+                    viewmodel.expression = "";
+                    text_expression.setText(viewmodel.expression);
                     hint_info.setText("请输入积分精度(正整数，越大越精确，建议500以上)，然后按“=”键继续");
-                    state_flag=5;
+                    viewmodel.state_flag=5;
                 }
-                else if(state_flag==5)
+                else if(viewmodel.state_flag==5)
                 {
-                    acc_num = expression;
-                    expression = Calculus.cal_calculus(var_expression, low, up, acc_num);
-                    viewmodel.expression_list.add("∫"+"{"+low+"}"+"_{"+up+"}_("+var_expression+")dx"); //记录积分表达式
-                    viewmodel.res_list.add(expression); //记录结果
-                    text_expression.setText(expression);
+                    viewmodel.acc_num = viewmodel.expression;
+                    viewmodel.expression = Calculus.cal_calculus(viewmodel.var_expression, viewmodel.low, viewmodel.up, viewmodel.acc_num);
+                    viewmodel.expression_list.add("∫"+"{"+viewmodel.low+"}"+"_{"+viewmodel.up+"}_("+viewmodel.var_expression+")dx"); //记录积分表达式
+                    viewmodel.res_list.add(viewmodel.expression); //记录结果
+                    text_expression.setText(viewmodel.expression);
                     hint_info.setText("");
-                    state_flag=1;
+                    viewmodel.state_flag=1;
                 }
 
             }
             else if(btn_id==btn_pow.getId()){
-                expression += "^";
-                text_expression.setText(expression);
+                viewmodel.expression += "^";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_kramp.getId()){
-                expression += "!";
-                text_expression.setText(expression);
+                viewmodel.expression += "!";
+                text_expression.setText(viewmodel.expression);
             }
             else if(btn_id==btn_var.getId()){
-                if(state_flag==2)
+                if(viewmodel.state_flag==2)
                 {
-                    if(expression.equals("0"))
+                    if(viewmodel.expression.equals("0"))
                     {
-                        expression = "X";
+                        viewmodel.expression = "X";
                     }
                     else
                     {
-                        expression += "X";
+                        viewmodel.expression += "X";
                     }
-                    text_expression.setText(expression);
+                    text_expression.setText(viewmodel.expression);
                 }
             }
             else if(btn_id==btn_cal.getId()){
-                expression = "";
-                text_expression.setText(expression);
+                viewmodel.expression = "";
+                text_expression.setText(viewmodel.expression);
                 hint_info.setText("请输入积分表达式，变量键为Var（请勿省略变量X和数字之间的*号），然后按“=”键继续");
-                state_flag = 2;
+                viewmodel.state_flag = 2;
             }
         }
         catch (Exception e){
-            state_flag = 1;
-            expression = "Error!";
-            text_expression.setText(expression);
+            viewmodel.state_flag = 1;
+            viewmodel.expression = "Error!";
+            text_expression.setText(viewmodel.expression);
         }
-        SetVMdlAttribute();//保存属性
     }
 
-    // 生命周期结束时保存数据
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG,"onSaveInstanceState(Bundle) called");
-        savedInstanceState.putString(KEY_expression, expression);
+
+    /* 菜单相关方法 */
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.activity_main,menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.btn_hist: // 如果点击的是history, 则导航到History页面上
+                NavDirections action=CalculateInterfaceFragmentDirections.actionCal2Hist();
+                Navigation.findNavController(view).navigate(action);
+                return true;
+
+            default:
+                return true;
+        }
     }
 
     /*重写其他方法*/
@@ -419,24 +438,6 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
     public void onDetach(){
         super.onDetach();
         Log.d(TAG,"onDetach() called");
-    }
-
-    private void SetVMdlAttribute(){
-        viewmodel.acc_num = acc_num;
-        viewmodel.expression = expression;
-        viewmodel.low = low;
-        viewmodel.up = up;
-        viewmodel.state_flag = state_flag;
-        viewmodel.var_expression = var_expression;
-    }
-
-    private void SetCalAttribute(){
-        acc_num = viewmodel.acc_num;
-        expression = viewmodel.expression;
-        low = viewmodel.low;
-        up = viewmodel.up;
-        state_flag = 1;
-        var_expression = viewmodel.var_expression;
     }
 
 }

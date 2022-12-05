@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/calculateInterfaceFragment">
+
+    <fragment
+        android:id="@+id/calculateInterfaceFragment"
+        android:name="com.larissa.android.calculator.CalculateInterfaceFragment"
+        android:label="CalculateInterfaceFragment" >
+        <action
+            android:id="@+id/action_cal_2_hist"
+            app:destination="@id/historyListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyListFragment"
+        android:name="com.larissa.android.calculator.HistoryListFragment"
+        android:label="HistoryListFragment" >
+        <action
+            android:id="@+id/action_hist_2_cal"
+            app:destination="@id/calculateInterfaceFragment" />
+    </fragment>
+</navigation>

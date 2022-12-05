@@ -38,4 +38,12 @@
 
 添加fragment_calculate的land版本，让项目更规范。
 
+## v8 2022.12.05
+将HistoryActivity去掉, 计算器只用两个Fragment和MainActivity实现计算页面和历史计算页面。
+
+同时，实现了点击计算历史记录，可以跳转到有对应算术表达式的计算器页面的功能。
+
+但目前有个BUG本人无法解决：就是在初始CalculateInterfaceFragment时被创造时，调用了一次getActivity().addMenuProvider(this)，
+在从HistoryListFragment使用**Navigate**跳转到CalculateInterfaceFragment时，CalculateInterfaceFragment又被创造，于是又调用了一次getActivity().addMenuProvider(this)，
+这导致MainActivity页面的**菜单栏里有两个History**。
 
