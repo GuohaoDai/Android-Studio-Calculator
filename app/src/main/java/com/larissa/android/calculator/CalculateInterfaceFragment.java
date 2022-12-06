@@ -52,7 +52,7 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
         //得到fragment所在的view
         view = inflater.inflate(R.layout.fragment_calculate, container,false);
 
-        //得到Activity对象， 设置菜单
+        //得到Activity对象，设置菜单
         getActivity().addMenuProvider(this);
 
         return view;
@@ -428,6 +428,7 @@ public class CalculateInterfaceFragment extends Fragment implements View.OnClick
     public void onDestroyView(){
         super.onDestroyView();
         Log.d(TAG,"onDestroyView() called");
+        getActivity().removeMenuProvider(this);
     }
     @Override
     public void onDestroy(){

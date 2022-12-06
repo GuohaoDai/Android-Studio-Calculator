@@ -47,3 +47,6 @@
 在从HistoryListFragment使用**Navigate**跳转到CalculateInterfaceFragment时，CalculateInterfaceFragment又被创造，于是又调用了一次getActivity().addMenuProvider(this)，
 这导致MainActivity页面的**菜单栏里有两个History**。
 
+## v9 2022.12.06
+
+修复v8的BUG。
