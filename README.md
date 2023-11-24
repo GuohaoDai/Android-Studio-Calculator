@@ -1,6 +1,6 @@
 # Calculator
 
-An calculator application in Android Studio.
+A calculator application in Android Studio.
 
 
 
